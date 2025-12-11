@@ -1,16 +1,43 @@
 const canvas = document.getElementById('canvas');
+const size = document.getElementById('size');
+const sizeUp = document.getElementById('sizeUp');
+const sizeDown = document.getElementById('sizeDown');
+const colWheel = document.getElementById('colWheel');
+const purge = document.getElementById('purge');
 const ctx = canvas.getContext('2d');
 
-let brushSize = 20;
+let brushSize = 15;
 let selectedColor = 'black';
 
 let mouseDown = false;
 let x = null;
 let y = null;
 
+function updateSize() {
+    size.innerText = brushSize;
+};
 
+sizeUp.addEventListener('click', () => {
+    brushSize += 5;
+    if (brushSize > 50) {
+        brushSize = 50;
+    };
+    updateSize();
+});
 
-canvas.addEventListener('mousedown', (e) => {
+sizeDown.addEventListener('click', () => {
+    brushSize -= 5;
+    if (brushSize < 5) {
+        brushSize = 5;
+    };
+    updateSize();
+});
+
+colWheel.addEventListener('change', (e) => selectedColor = e.target.value);
+
+purge.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height))
+
+canvas.addEventListener('mousedown', (e) => {   
     mouseDown = true;
     x = e.offsetX;
     y = e.offsetY;
@@ -50,3 +77,4 @@ function drawLine(xStart, yStart, xEnd, yEnd) {
     ctx.strokeStyle = selectedColor;
     ctx.stroke();
 }
+
